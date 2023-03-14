@@ -1,0 +1,45 @@
+
+syntax = "proto3";
+
+package file_processing;
+option go_package = "genproto/file_processing";
+
+import "google/protobuf/timestamp.proto";
+
+service FileProcessing {
+    rpc Store(StoreRequest) returns (File) {}
+    rpc List(ListRequest) returns (ListResponse) {}
+    rpc Download(DownloadRequest) returns (File) {}
+}
+
+message DownloadRequest {
+    string userID = 1;
+    string fileID = 2;
+}
+
+message File {
+    string ID = 1;
+    string name = 2;
+    string link = 3;
+
+    google.protobuf.Timestamp createdAt = 4;
+    google.protobuf.Timestamp updatedAt = 5;
+}
+
+message ListResponse {
+    repeated File files = 1;
+}
+
+message StoreRequest {
+    string userID = 1;
+    string name = 2;
+    string link = 3;
+}
+
+
+message ListRequest {
+    string userID = 1;
+
+    int32 limit = 2;
+    int32 offset = 3;
+}
